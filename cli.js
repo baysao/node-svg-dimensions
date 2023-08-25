@@ -56,11 +56,14 @@ walk(walkPath, function(file, next){
 
 
 // var path = '/local/file/example.svg';
-
-
+// console.log(file);
+  if(!/.svg/.test(file)) return next();
 
 svgDim.get(file, function(err, dimensions) {
     if (err) console.log(err);
+    
+  
+    console.log("is svg")
     var filename = path.basename(file, '.svg');
 
     var height = dimensions.height;
