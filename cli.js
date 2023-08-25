@@ -50,7 +50,7 @@ if(process.argv[2]) {
 // console.log('-------------------------------------------------------------');
 // console.log('processing...');
 // console.log('-------------------------------------------------------------');
-var output = '{';
+var output = [];
 walk(walkPath, function(file, next){
 
 
@@ -63,19 +63,19 @@ svgDim.get(file, function(err, dimensions) {
     if (err) console.log(err);
     
   
-    console.log("is svg")
+    // console.log("is svg")
     var filename = path.basename(file, '.svg');
 
     var height = dimensions.height;
     var width = dimensions.width;
     var viewBox = dimensions.viewBox;
-    output = output + '"' + filename 
+    output.push('"' + filename
     + '":{' 
     + '"width":' + width + ','
     + '"height":' + height + ','
     + '"viewBox":"' + viewBox + '"'
-    + '}'; 
-    console.log(filename, width,height, viewBox);
+    + '}'); 
+    // console.log(filename, width,height, viewBox);
     next();
 });
 
@@ -87,9 +87,9 @@ svgDim.get(file, function(err, dimensions) {
     if (error) {
         throw error;
     } else {
-        output = output + '}';
-        console.log(output);
-        fs.writeFileSync(outPath, output);
+        var outputTotal = '{' + output.join(',') + '}';
+        // console.log(output.concat(','));
+        fs.writeFileSync(outPath, outputTotal);
         // console.log('-------------------------------------------------------------');
         // console.log('finished.');
         // console.log('-------------------------------------------------------------');
